@@ -9,8 +9,8 @@ registers = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 a = -1
 infile = open("test1.bin",'rb')
-dis = open("DIS.txt", 'w')
-
+
+
 #returns the total number of lines in the file
 def readLength():
 	fileLength = os.stat('test1.bin')[6]
@@ -49,6 +49,7 @@ def convert_to_binary(int):
 # there are multiple ones with 00000 as a code
 # so for those we need the 'SPECIAL' function codes
 # these are the last six bits (ones w/o '00000' use those 6 for #other things..)
+# 
 def specOpCode(special):
 	ADD, SLL, SRL, AND, OR, MOVZ, NOP, BREAK, SUB  = '100000', '000000', '000010', '100100', '100101', '001010', '000000', '001101', '100010'
 	if special == ADD:
@@ -98,31 +99,14 @@ def convert_r(line):
 		i = i + 1
 		#print i
 	return r
-
-def convert_ADDI(line):
-	bits = 32, 16, 8, 4, 2, 1
-	# 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024
-	#1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1
-	i = 0
-	r = 0
-	while i < 6:
-		if line[i] == '1':	
-			r = r + bits[i]
-		i = i + 1
-		#print i
-		if r == 63:
-			r = (-1)
-	return r
-
-
 	
 
 #um....i forgot what this does
 #oh, this lets the 'MAIN' program know that
 # we do something different when we reach a BREAK
 # instruction
-
 def newBreak(PC):
+
 	while 1:
 		decimalValue = readFile()	
 		line = convert_to_binary(decimalValue) 
@@ -139,7 +123,7 @@ def newBreak(PC):
 		   data.append(address)
 		  i = i + 1
 		 #print i
-		 print>>dis, line,'     ',PC , address
+		 print line,'     ',PC , address
 		if line[0] == '1':
 		 while i < 31:
 		  i = i + 1
@@ -150,7 +134,7 @@ def newBreak(PC):
 		 address = address + 1
 		 data.append(0 - address)
 		 i = 0
-		 print>>dis,  line,'     ',PC , '-', address
+		 print  line,'     ',PC , '-', address
 
 
 
@@ -159,100 +143,51 @@ def newBreak(PC):
 # this defines the rest of the instructions
 # notice it statements for LW and SW 
 # i just wrote headers for an overloaded function
-# to get the r values, but didn't complete it 
+# to get the r values, but didn't complete it
 
 def convert_to_instruction(line,PC):
-	#dis = open("DIS.txt", 'w')
 	j, JR, BEQ, addi, bltz, sw, lw, mul,  = '00010', '01000', '00100', '01000', '00001', '01011', '00011', '11100'
 	function = 'holder'
-	
-	if line[1:6] == j:
-	 	function = 'J'
-		immediate_addr = convert_ADDI(line[26:32]) * 4
-	
-	if line[1:6] == JR:		
-	 	function = 'JR'
-		immediate_addr = convert_ADDI(line[26:32]) * 4
-	
-	if line[1:6] == BEQ:
-	 	function = 'BEQ'
-	 	immediate_addr = convert_ADDI(line[26:32]) * 4
-	 	rBRANCH =  convert_r(line[6:11])
-	
-	if line[1:6] == addi:
-	 	function = 'ADDI'
-	 	immediate_addr = convert_ADDI(line[26:32])
-	 	rADDSL1 =  convert_r(line[11:16])
-	 	rADDSL2 =  convert_r(line[6:11])
-	
-	if line[1:6] == bltz:
-	 	function = 'BLTZ'
-	 	immediate_addr = convert_ADDI(line[26:32]) * 4
-	 	rBRANCH =  convert_r(line[6:11])
-	
-	if line[1:6] == sw:
-	 	function = 'SW'
-	 	immediate_addr = convert_imm_address(line[21:32])
-	 	rSW1 =  convert_r(line[11:16])
-	 	rSW2 =  convert_r(line[6:11])
-	
-	if line[1:6] == lw:
-	 	function = 'LW'
-	 	immediate_addr = convert_imm_address(line[21:32])
-	 	rLW1 =  convert_r(line[11:16])
-	 	rLW2 =  convert_r(line[6:11])
-	
-	if line[1:6] == mul:
-	 	function = 'MUL'
-
-###############################################################################
-###############################################################################
 	if line[0] == '0':
-	 	print>>dis, line[0], line[1:6], line[6:11], line[11:16], line[16:21], line[21:26], line [26:32], PC, 'invalid instruction'
-		function = 'holder'
-	
+	 print line[0], line[1:6], line[6:11], line[11:16], line[16:21], line[21:26], line [26:32], PC, 'invalid instruction'
 	if line[1:6] == '00000':
-	 	function = specOpCode(line[26:32])
-	
-	if  function  == 'J' or function == 'JR':
-	 	print>>dis, line[0], line[1:6], line[6:11], line[11:16], line[16:21], line[21:26], line [26:32], PC, function, '#',immediate_addr  	
-	
-	if  function == 'ADDI':
-		#immediate_addr = convert_r(line[26:31])
-	 	#rADDSL1 =  convert_r(line[11:16])
-	 	#rADDSL2 =  convert_r(line[6:11])
-	 	print>>dis, line[0], line[1:6], line[6:11], line[11:16], line[16:21], line[21:26], line [26:32], PC, function, 'R',rADDSL1, 'R', rADDSL2, '#',immediate_addr  
-	
-	if  function == 'BLTZ' or  function == 'BEQ':
-		print>>dis, line[0], line[1:6], line[6:11], line[11:16], line[16:21], line[21:26], line [26:32], PC, function, 'R',rBRANCH,'#', immediate_addr 
-	
-	if  function == 'ADD' or function == 'SUB':
-		rADDSUB1 =  convert_r(line[11:16])
-	 	rADDSUB2 =  convert_r(line[6:11])
-		rADDSUB3 =  convert_r(line[11:16])
-		print>>dis, line[0], line[1:6], line[6:11], line[11:16], line[16:21], line[21:26], line[26:32], PC, function ,'R',rADDSUB1,'R',rADDSUB2,'R',rADDSUB3
-	
-	if function == 'SLL' or function == 'SRL':
-		immediate_addr = convert_r(line[21:26])
-	 	rADDSL1 =  convert_r(line[11:16])
-	 	rADDSL2 =  convert_r(line[6:11])
-		print>>dis, line[0], line[1:6], line[6:11], line[11:16], line[16:21], line[21:26], line [26:32], PC, function, 'R',rADDSL1, 'R', rADDSL2, '#',immediate_addr   
-	
-	if function == 'MUL':
-	 	print>>dis, line[0], line[1:6], line[6:11], line[11:16], line[16:21], line[21:26], line [26:32], PC, function 
-	
+	 function = specOpCode(line[26:32])	
+	if line[1:6] == j:
+	 function = 'J'
+	if line[1:6] == JR:		
+	 function = 'JR'
+	if line[1:6] == BEQ:
+	 function = 'BEQ'
+	if line[1:6] == addi:
+	 function = 'ADDI'
+	 immediate_addr = convert_imm_address(line[21:32])
+	 rSW1 =  convert_r(line[11:16])
+	 rSW2 =  convert_r(line[6:11])
+	if line[1:6] == bltz:
+	 function = 'BLTZ'
+	if line[1:6] == sw:
+	 function = 'SW'
+	 immediate_addr = convert_imm_address(line[21:32])
+	 rSW1 =  convert_r(line[11:16])
+	 rSW2 =  convert_r(line[6:11])
+	if line[1:6] == lw:
+	 function = 'LW'
+	 immediate_addr = convert_imm_address(line[21:32])
+	 rLW1 =  convert_r(line[11:16])
+	 rLW2 =  convert_r(line[6:11])
+	if line[1:6] == mul:
+	 function = 'MUL'
+	if  function  == 'J' or  function == 'JR' or  function == 'BEQ' or  function == 'ADDI' or  function == 'BLTZ' or function == 'MUL':
+	 	print line[0], line[1:6], line[6:11], line[11:16], line[16:21], line[21:26], line [26:32], PC, function, 'R','R','#' 
 	if function =='LW':
-	 	print>>dis, line[0], line[1:6], line[6:11], line[11:16], line[16:21], line[21:26], line [26:32], PC, function,'R',rLW1, immediate_addr, '(R',rLW2,')'
-	
+	 	print line[0], line[1:6], line[6:11], line[11:16], line[16:21], line[21:26], line [26:32], PC, function,'R',rLW1, immediate_addr, '(R',rLW2,')'
 	if function =='SW':
-	 	print>>dis, line[0], line[1:6], line[6:11], line[11:16], line[16:21], line[21:26], line [26:32], PC, function,'R',rSW1, immediate_addr, '(R',rSW2,')'
-	
+	 	print line[0], line[1:6], line[6:11], line[11:16], line[16:21], line[21:26], line [26:32], PC, function,'R',rSW1, immediate_addr, '(R',rSW2,')'
 	if function == 'BREAK':
 		newBreak(PC)
 		infile.close()
-		
-	PC = PC + 4
-	#return function
+	
+	return function
 
 	 
 
@@ -312,17 +247,13 @@ def output_cycle(registers, PC, function):
 
 # I guess this would be the 'MAIN'
 while 1:
-	
-	decimalValue = readFile()	
+	decimalValue = readFile()
+		
 	line = convert_to_binary(decimalValue)
-	#function = convert_to_instruction(line,PC)
-	convert_to_binary(decimalValue)
-	convert_to_instruction(line,PC)
-	PC = PC + 4
-	#dis.close()
 	
-	#output_cycle(registers, PC, function)
-
+	function = convert_to_instruction(line,PC)
+	output_cycle(registers, PC, function)
+	PC =PC +4
 
 
       
