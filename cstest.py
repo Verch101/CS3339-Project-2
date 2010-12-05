@@ -247,10 +247,8 @@ def output_cycle(registers, PC, function):
 
 # I guess this would be the 'MAIN'
 while 1:
-	decimalValue = readFile()
-		
-	line = convert_to_binary(decimalValue)
-	
+	decimalValue = readFile()		
+	line = convert_to_binary(decimalValue)	
 	function = convert_to_instruction(line,PC)
 	output_cycle(registers, PC, function)
 	PC =PC +4
