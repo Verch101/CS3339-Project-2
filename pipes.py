@@ -4,8 +4,11 @@ def write_back_unit(postmem, postalu, isempty ):
 cyclenum = 0
 #All of the register stuff. Going to have to think about this and come back to it. I need to use the Rd from the mips to write back to the registers array.
 
+#assumming that that the postALUbuffer and POST-MEM are named that
+if postALUbuffer0 != x
+	
 
-#all of the out pust stuff is here I dont know why.
+#all of the out put stuff is here I dont know why.
 print '--------------------'
 print 'Cycle:', cyclenum
 print ' '
@@ -19,13 +22,11 @@ print '        Entry 0:', preALUbuffer0
 print '        Entry 1:', preALUbuffer1
 print 'Post_ALU Queue:'
 print '        Entry 0:', postALUbuffer0
-print '        Entry 1:', postALUbuffer1
 print 'Pre_MEM Queue:'
 print '        Entry 0:', preMEMbuffer0
 print '        Entry 1:', preMEMbuffer1
 print 'Post_MEM Queue:'
 print '        Entry 0:', postMEMbuffer0
-print '        Entry 1:', postMEMbuffer1
 print ' '
 print 'Registers'
 print 'R00:', '        ', registers[0],'        ', registers[1],'        ', registers[2],'        ', registers[3],'        ', registers[4],'        ', registers[5],'        ', registers[6],'        ', registers[7]
