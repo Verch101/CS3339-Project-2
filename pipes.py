@@ -2,7 +2,7 @@
 postmem, postalu = '0', '0'
 def write_back_unit(postmem, postalu, isempty ):
 cyclenum = 0
-#All of the register stuff.
+#All of the register stuff. Going to have to think about this and come back to it. I need to use the Rd from the mips to write back to the registers array.
 
 
 #all of the out pust stuff is here I dont know why.
