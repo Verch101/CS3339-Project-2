@@ -1,11 +1,27 @@
 
-postmem, postalu = '0', '0'
+postmem, postalu, cyclenum = '0', '0', '0'
 def write_back_unit(postmem, postalu, isempty ):
-#cyclenum = '0'
-#All of the register stuff. Going to have to think about this and come back to it. I need to use the Rd from the mips to write back to the registers array.
+All of the register stuff. Going to have to think about this and come back to it. I need to use the Rd from the mips to write back to the registers array.
 
-#assumming that that the postALUbuffer and POST-MEM are named that
-#if postALUbuffer0 != x
+assumming that that the postALUbuffer and POST-MEM are named that
+if postALUbuffer0 != x
+	#store to register
+	#postALUbuffer0[7-11]
+if postMEMbuffer0 != x
+	#store to register
+	postMEMbuffer0[11-16]
+	bits =16, 8, 4, 2, 1
+	# 1, 2, 4, 8, 16,
+	#32, 16, 8, 4, 2, 1
+	i = 0
+	address = 0
+	while i < 5:
+		if postMEMbuffer0[i] == '1':	
+			address = address + bits[i]
+		i = i + 1
+		#print i
+	registers[address] = postMEMbuffer0
+	address = 0
 	
 
 #all of the out put stuff is here I dont know why.
