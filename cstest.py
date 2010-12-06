@@ -191,60 +191,6 @@ def convert_to_instruction(line,PC):
 
 	 
 
-######################################################################
-####################################################################
-#####################################################################
-# Arguements to pass that may be helpful are the current cycle count, the PC, the function (ie addi)
-# Also will want to call a function that looks at the function(addi) and based on what function it is, will output the correct rs, rt, rd, and immediate?
-
-
-def output_cycle(registers, PC, function):
-
-# Creates and opens file "cycle" in the /tmp/output directory with the write capability
-	cycle = open("output.txt", 'w')
-	print>>cycle, 'ttr'
-	count =1
-
-# While loop: Needs to exit the loop after the break cycle
-
-# Prints the header of the cycle file
-	cycle.write("====================")
-	header = "cycle: ", count, PC, "	", function, "R1, R0, #10 \n"
-
-# Prints the registers and their contents, must access the previously created array registers[] size = 32 elements
-	cycle.write("registers: \n")
-
-	r00 = "r00:", registers[0], "	", registers[1], "   ",registers[2], "   ",registers[3], "   ",registers[4], "   ",registers[5], "   ",registers[6], "   ",registers[7], "      \n"
-	r08 = "r08:", registers[8], "   ", registers[9], "   ",registers[10], "   ",registers[11], "   ",registers[12], "   ",registers[13], "   ",registers[14], "   ",registers[15], "      \n"
-	r16 = "r16", registers[16], "	", registers[17], "	",registers[18], "   ",registers[19], "   ",registers[20], "   ",registers[21], "   ",registers[22], "   ",registers[23], "      \n"
-	r24 = "r24:", registers[24], "   ", registers[25], "   ",registers[26], "   ",registers[27], "   ",registers[28], "   ",registers[29], "   ",registers[30], "   ",registers[31], "	\n"
-
-	print>>cycle, (r00[1])
-	print>>cycle, (r08)
-	print>>cycle, (r16)
-	print>>cycle, (r24)
-
-# Prints the data and its contents, must access the previously created array data[] size = 24 elements 
-	data172 = '172:', data[0],"    ", data[1],"    ", data[2],"    ", data[3],"    ", data[4],"    ", data[5],"    ", data[6],"    ", data[7],"    \n"
-	data204 = "204:", data[8],"    ", data[9],"    ", data[10],"    ", data[11],"    ", data[12],"    ", data[13],"    ", data[14],"    ", data[15],"    \n"
-	data205 = "236:", data[16],"    ", data[17],"    ", data[18],"    ", data[19],"    ", data[20],"    ", data[21],"    ", data[22],"    ", data[23],"    \n"
-
-	print>>cycle, (data172)
-	print>>cycle, (data204)
-	print>>cycle, (data205)
-	count = count +1
-	
-# Must close the file to free up memory
-	cycle.close()
-
-
-####################################################################3
-#################################################################
-####################################################################
-
-
-
-
 # I guess this would be the 'MAIN'
 while 1:
 	decimalValue = readFile()		
