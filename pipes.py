@@ -1,16 +1,15 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 postmem, postalu = '0', '0'
 def write_back_unit(postmem, postalu, isempty ):
-cyclenum = 0
+#cyclenum = '0'
 #All of the register stuff. Going to have to think about this and come back to it. I need to use the Rd from the mips to write back to the registers array.
 
 #assumming that that the postALUbuffer and POST-MEM are named that
-if postALUbuffer0 != x
+#if postALUbuffer0 != x
 	
 
 #all of the out put stuff is here I dont know why.
-print '--------------------'
+ print '--------------------'
 print 'Cycle:', cyclenum
 print ' '
 print 'Pre-Issue Buffer:'
@@ -38,13 +37,11 @@ print 'R24:', '        ', registers[24],'        ', registers[25],'        ', re
 #Cash stuff goes here But I dont understand that stuff yet, so this is just a black hole for right now. We can just put something in here later to make the diff closer.
 
 print 'Data'
-print '128:	4	16
+print '128:	4	16'
 print '--------------------'
 
 cyclenum = cyclenum + 1
 def instruction_fetch():
-
-
 
 def issue():
 
