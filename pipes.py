@@ -7,6 +7,18 @@ assumming that that the postALUbuffer and POST-MEM are named that
 if postALUbuffer0 != x
 	#store to register
 	#postALUbuffer0[7-11]
+	bits =16, 8, 4, 2, 1
+	# 1, 2, 4, 8, 16,
+	#32, 16, 8, 4, 2, 1
+	i = 0
+	address = 0
+	while 7 < i < 11:
+		if postALUbuffer0[i] == '1':	
+			address = address + bits[i]
+		i = i + 1
+		#print i
+	registers[address] = postMEMbuffer0
+	address = 0
 if postMEMbuffer0 != x
 	#store to register
 	#postMEMbuffer0[11-16]
