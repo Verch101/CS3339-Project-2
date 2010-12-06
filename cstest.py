@@ -8,23 +8,23 @@ PC = 96
 registers = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 a = -1
-infile = open("test1.bin",'rb')
+#infile = open(bin_file,'rb')
 
 
 #returns the total number of lines in the file
-def readLength():
-	fileLength = os.stat('test1.bin')[6]
-	fileLength = fileLength/4	
-	return fileLength
+#def readLength():
+#	fileLength = os.stat(bin_file)[6]
+#	fileLength = fileLength/4	
+#	return fileLength
 
 #returns a decimal value for each line in the binary file
-def readFile():				
+#def readFile():				
 	#from struct import *
 	#lenn = readLength()
 	#byte = 0	
-	byte = unpack('>I', infile.read(4))[0]
+#	byte = unpack('>I', infile.read(4))[0]
 	#infile.read(1024)
-	return byte
+#	return byte
 	
 
 
@@ -149,7 +149,8 @@ def convert_to_instruction(line,PC):
 	j, JR, BEQ, addi, bltz, sw, lw, mul,  = '00010', '01000', '00100', '01000', '00001', '01011', '00011', '11100'
 	function = 'holder'
 	if line[0] == '0':
-	 print line[0], line[1:6], line[6:11], line[11:16], line[16:21], line[21:26], line [26:32], PC, 'invalid instruction'
+	 function = 'invalid instruction'
+#	 print line[0], line[1:6], line[6:11], line[11:16], line[16:21], line[21:26], line [26:32], PC, 'invalid instruction'
 	if line[1:6] == '00000':
 	 function = specOpCode(line[26:32])	
 	if line[1:6] == j:
@@ -177,27 +178,29 @@ def convert_to_instruction(line,PC):
 	 rLW2 =  convert_r(line[6:11])
 	if line[1:6] == mul:
 	 function = 'MUL'
-	if  function  == 'J' or  function == 'JR' or  function == 'BEQ' or  function == 'ADDI' or  function == 'BLTZ' or function == 'MUL':
-	 	print line[0], line[1:6], line[6:11], line[11:16], line[16:21], line[21:26], line [26:32], PC, function, 'R','R','#' 
-	if function =='LW':
-	 	print line[0], line[1:6], line[6:11], line[11:16], line[16:21], line[21:26], line [26:32], PC, function,'R',rLW1, immediate_addr, '(R',rLW2,')'
-	if function =='SW':
-	 	print line[0], line[1:6], line[6:11], line[11:16], line[16:21], line[21:26], line [26:32], PC, function,'R',rSW1, immediate_addr, '(R',rSW2,')'
-	if function == 'BREAK':
-		newBreak(PC)
-		infile.close()
+	
+
+#	if  function  == 'J' or  function == 'JR' or  function == 'BEQ' or  function == 'ADDI' or  function == 'BLTZ' or function == 'MUL':
+#	 	print line[0], line[1:6], line[6:11], line[11:16], line[16:21], line[21:26], line [26:32], PC, function, 'R','R','#' 
+#	if function =='LW':
+#	 	print line[0], line[1:6], line[6:11], line[11:16], line[16:21], line[21:26], line [26:32], PC, function,'R',rLW1, immediate_addr, '(R',rLW2,')'
+#	if function =='SW':
+#	 	print line[0], line[1:6], line[6:11], line[11:16], line[16:21], line[21:26], line [26:32], PC, function,'R',rSW1, immediate_addr, '(R',rSW2,')'
+#	if function == 'BREAK':
+#		newBreak(PC)
+#	infile.close()
 	
 	return function
 
 	 
 
 # I guess this would be the 'MAIN'
-while 1:
-	decimalValue = readFile()		
-	line = convert_to_binary(decimalValue)	
-	function = convert_to_instruction(line,PC)
-	output_cycle(registers, PC, function)
-	PC =PC +4
+#while 1:
+#	decimalValue = readFile()		
+#	line = convert_to_binary(decimalValue)	
+#	function = convert_to_instruction(line,PC)
+#	#output_cycle(registers, PC, function)
+#	PC =PC +4
 
 
       

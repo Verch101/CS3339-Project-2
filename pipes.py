@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 postmem, postalu = '0', '0'
 def write_back_unit(postmem, postalu, isempty ):
 cyclenum = 0
@@ -54,15 +55,41 @@ def ALU():
 
 =======
 from cstest.py import *
+=======
+from cstest import *
+import sys
+import os, os.path, stat
+
+>>>>>>> 0c4f7af6b7313224a33af1196feafe9b1e62e5f3
 PC = 96
 
 if (len(sys.argv) > 1):
 	bin_file, dis_file = sys.argv[1], sys.argv[2]
+	print bin_file, dis_file
 else:
  	print "Please enter valid input/output files"
 
+infile = open(bin_file,'rb')
 
-def instruction_fetch():
+
+
+#returns the total number of lines in the file
+def readLength():
+	fileLength = os.stat(bin_file)[6]
+	fileLength = fileLength/4	
+	return fileLength
+
+#returns a decimal value for each line in the binary file
+def readFile():				
+	#from struct import *
+	#lenn = readLength()
+	#byte = 0	
+	byte = unpack('>I', infile.read(4))[0]
+	#infile.read(1024)
+	return byte
+
+
+def instruction_fetch(bin_file):
 
 	x = 0	
 	while x<2:
@@ -70,7 +97,7 @@ def instruction_fetch():
 		line = convert_to_binary(decimalValue)
 		#convert_to_binary(decimalValue)
 		#convert_to_instruction(line,PC)
-		PC = PC + 4
+		#PC = PC + 4
 		function = convert_to_instruction(line,PC)
 		if (x == 0):
 			IF_BIN_ONE = line
@@ -78,10 +105,14 @@ def instruction_fetch():
 		if (x == 1):
 			IF_BIN_TWO = line
 			IF_INST_TWO = function
-		output_cycle(registers, PC, function)
+#		output_cycle(registers, PC, function)
 		x = x + 1
 	print "two instructions were just loaded into the IF"
 	print "they are", IF_INST_ONE, "and", IF_INST_TWO
+
+
+instruction_fetch(bin_file)
+PC = PC +4
 
 
 
