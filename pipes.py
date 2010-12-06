@@ -9,13 +9,13 @@ if postALUbuffer0 != x
 	#postALUbuffer0[7-11]
 if postMEMbuffer0 != x
 	#store to register
-	postMEMbuffer0[11-16]
+	#postMEMbuffer0[11-16]
 	bits =16, 8, 4, 2, 1
 	# 1, 2, 4, 8, 16,
 	#32, 16, 8, 4, 2, 1
 	i = 0
 	address = 0
-	while i < 5:
+	while 11 < i < 16:
 		if postMEMbuffer0[i] == '1':	
 			address = address + bits[i]
 		i = i + 1
